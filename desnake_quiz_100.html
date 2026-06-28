@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<title>Desnake Quiz 100</title>
+<style>
+body{font-family:Arial;background:#0f172a;color:white;text-align:center}
+.container{max-width:800px;margin:auto;padding:20px}
+.card{background:#1e293b;padding:20px;border-radius:15px;margin-top:20px}
+.option{display:block;background:#334155;margin:10px;padding:10px;border-radius:10px;cursor:pointer}
+</style>
+</head>
+<body>
+
+<div class="container">
+<h1>Desnake Quiz (50 Math + 50 English)</h1>
+
+<div class="card" id="quizBox">
+<h2 id="question"></h2>
+<div id="options"></div>
+<button onclick="nextQ()">Next</button>
+</div>
+
+<div class="card" id="resultBox" style="display:none;">
+<h2>Natija</h2>
+<p id="score"></p>
+</div>
+</div>
+
+<script>
+const questions = [{'q': '1+1=?', 'o': ['1', '2', '2', '4'], 'a': 1}, {'q': '4-2=?', 'o': ['2', '4', '1', '4'], 'a': 0}, {'q': '3*2=?', 'o': ['3', '6', '9', '7'], 'a': 1}, {'q': '9/5=?', 'o': ['1', '2', '1', '4'], 'a': 2}, {'q': '5^2 (approx)?', 'o': ['5', '25', '15', '10'], 'a': 1}, {'q': '6+6=?', 'o': ['6', '12', '7', '9'], 'a': 1}, {'q': '14-7=?', 'o': ['7', '14', '6', '9'], 'a': 0}, {'q': '8*2=?', 'o': ['8', '16', '24', '12'], 'a': 1}, {'q': '14/5=?', 'o': ['1', '2', '2', '9'], 'a': 2}, {'q': '10^2 (approx)?', 'o': ['10', '100', '20', '20'], 'a': 1}, {'q': '11+11=?', 'o': ['11', '22', '12', '14'], 'a': 1}, {'q': '24-12=?', 'o': ['12', '24', '11', '14'], 'a': 0}, {'q': '13*2=?', 'o': ['13', '26', '39', '17'], 'a': 1}, {'q': '19/5=?', 'o': ['1', '2', '3', '14'], 'a': 2}, {'q': '15^2 (approx)?', 'o': ['15', '225', '25', '30'], 'a': 1}, {'q': '16+16=?', 'o': ['16', '32', '17', '19'], 'a': 1}, {'q': '34-17=?', 'o': ['17', '34', '16', '19'], 'a': 0}, {'q': '18*2=?', 'o': ['18', '36', '54', '22'], 'a': 1}, {'q': '24/5=?', 'o': ['1', '2', '4', '19'], 'a': 2}, {'q': '20^2 (approx)?', 'o': ['20', '400', '30', '40'], 'a': 1}, {'q': '21+21=?', 'o': ['21', '42', '22', '24'], 'a': 1}, {'q': '44-22=?', 'o': ['22', '44', '21', '24'], 'a': 0}, {'q': '23*2=?', 'o': ['23', '46', '69', '27'], 'a': 1}, {'q': '29/5=?', 'o': ['1', '2', '5', '24'], 'a': 2}, {'q': '25^2 (approx)?', 'o': ['25', '625', '35', '50'], 'a': 1}, {'q': '26+26=?', 'o': ['26', '52', '27', '29'], 'a': 1}, {'q': '54-27=?', 'o': ['27', '54', '26', '29'], 'a': 0}, {'q': '28*2=?', 'o': ['28', '56', '84', '32'], 'a': 1}, {'q': '34/5=?', 'o': ['1', '2', '6', '29'], 'a': 2}, {'q': '30^2 (approx)?', 'o': ['30', '900', '40', '60'], 'a': 1}, {'q': '31+31=?', 'o': ['31', '62', '32', '34'], 'a': 1}, {'q': '64-32=?', 'o': ['32', '64', '31', '34'], 'a': 0}, {'q': '33*2=?', 'o': ['33', '66', '99', '37'], 'a': 1}, {'q': '39/5=?', 'o': ['1', '2', '7', '34'], 'a': 2}, {'q': '35^2 (approx)?', 'o': ['35', '1225', '45', '70'], 'a': 1}, {'q': '36+36=?', 'o': ['36', '72', '37', '39'], 'a': 1}, {'q': '74-37=?', 'o': ['37', '74', '36', '39'], 'a': 0}, {'q': '38*2=?', 'o': ['38', '76', '114', '42'], 'a': 1}, {'q': '44/5=?', 'o': ['1', '2', '8', '39'], 'a': 2}, {'q': '40^2 (approx)?', 'o': ['40', '1600', '50', '80'], 'a': 1}, {'q': '41+41=?', 'o': ['41', '82', '42', '44'], 'a': 1}, {'q': '84-42=?', 'o': ['42', '84', '41', '44'], 'a': 0}, {'q': '43*2=?', 'o': ['43', '86', '129', '47'], 'a': 1}, {'q': '49/5=?', 'o': ['1', '2', '9', '44'], 'a': 2}, {'q': '45^2 (approx)?', 'o': ['45', '2025', '55', '90'], 'a': 1}, {'q': '46+46=?', 'o': ['46', '92', '47', '49'], 'a': 1}, {'q': '94-47=?', 'o': ['47', '94', '46', '49'], 'a': 0}, {'q': '48*2=?', 'o': ['48', '96', '144', '52'], 'a': 1}, {'q': '54/5=?', 'o': ['1', '2', '10', '49'], 'a': 2}, {'q': '50^2 (approx)?', 'o': ['50', '2500', '60', '100'], 'a': 1}, {'q': 'He ___ a student #1', 'o': ['is', 'are', 'am', 'be'], 'a': 0}, {'q': 'They ___ happy #2', 'o': ['is', 'are', 'am', 'be'], 'a': 1}, {'q': 'I ___ book #3', 'o': ['read', 'reads', 'reading', 'readed'], 'a': 0}, {'q': 'She ___ to school #4', 'o': ['go', 'goes', 'going', 'gone'], 'a': 1}, {'q': 'Cat meaning? #5', 'o': ['it', 'mushuk', 'dog', 'bird'], 'a': 1}, {'q': 'Big synonym #6', 'o': ['large', 'small', 'tiny', 'short'], 'a': 0}, {'q': 'He ___ football #7', 'o': ['play', 'plays', 'playing', 'played'], 'a': 1}, {'q': 'We ___ friends #8', 'o': ['is', 'are', 'am', 'be'], 'a': 1}, {'q': 'I am ___ #9', 'o': ['happy', 'happily', 'happier', 'happiest'], 'a': 0}, {'q': 'She ___ English #10', 'o': ['speak', 'speaks', 'speaking', 'spoke'], 'a': 1}, {'q': 'He ___ a student #11', 'o': ['is', 'are', 'am', 'be'], 'a': 0}, {'q': 'They ___ happy #12', 'o': ['is', 'are', 'am', 'be'], 'a': 1}, {'q': 'I ___ book #13', 'o': ['read', 'reads', 'reading', 'readed'], 'a': 0}, {'q': 'She ___ to school #14', 'o': ['go', 'goes', 'going', 'gone'], 'a': 1}, {'q': 'Cat meaning? #15', 'o': ['it', 'mushuk', 'dog', 'bird'], 'a': 1}, {'q': 'Big synonym #16', 'o': ['large', 'small', 'tiny', 'short'], 'a': 0}, {'q': 'He ___ football #17', 'o': ['play', 'plays', 'playing', 'played'], 'a': 1}, {'q': 'We ___ friends #18', 'o': ['is', 'are', 'am', 'be'], 'a': 1}, {'q': 'I am ___ #19', 'o': ['happy', 'happily', 'happier', 'happiest'], 'a': 0}, {'q': 'She ___ English #20', 'o': ['speak', 'speaks', 'speaking', 'spoke'], 'a': 1}, {'q': 'He ___ a student #21', 'o': ['is', 'are', 'am', 'be'], 'a': 0}, {'q': 'They ___ happy #22', 'o': ['is', 'are', 'am', 'be'], 'a': 1}, {'q': 'I ___ book #23', 'o': ['read', 'reads', 'reading', 'readed'], 'a': 0}, {'q': 'She ___ to school #24', 'o': ['go', 'goes', 'going', 'gone'], 'a': 1}, {'q': 'Cat meaning? #25', 'o': ['it', 'mushuk', 'dog', 'bird'], 'a': 1}, {'q': 'Big synonym #26', 'o': ['large', 'small', 'tiny', 'short'], 'a': 0}, {'q': 'He ___ football #27', 'o': ['play', 'plays', 'playing', 'played'], 'a': 1}, {'q': 'We ___ friends #28', 'o': ['is', 'are', 'am', 'be'], 'a': 1}, {'q': 'I am ___ #29', 'o': ['happy', 'happily', 'happier', 'happiest'], 'a': 0}, {'q': 'She ___ English #30', 'o': ['speak', 'speaks', 'speaking', 'spoke'], 'a': 1}, {'q': 'He ___ a student #31', 'o': ['is', 'are', 'am', 'be'], 'a': 0}, {'q': 'They ___ happy #32', 'o': ['is', 'are', 'am', 'be'], 'a': 1}, {'q': 'I ___ book #33', 'o': ['read', 'reads', 'reading', 'readed'], 'a': 0}, {'q': 'She ___ to school #34', 'o': ['go', 'goes', 'going', 'gone'], 'a': 1}, {'q': 'Cat meaning? #35', 'o': ['it', 'mushuk', 'dog', 'bird'], 'a': 1}, {'q': 'Big synonym #36', 'o': ['large', 'small', 'tiny', 'short'], 'a': 0}, {'q': 'He ___ football #37', 'o': ['play', 'plays', 'playing', 'played'], 'a': 1}, {'q': 'We ___ friends #38', 'o': ['is', 'are', 'am', 'be'], 'a': 1}, {'q': 'I am ___ #39', 'o': ['happy', 'happily', 'happier', 'happiest'], 'a': 0}, {'q': 'She ___ English #40', 'o': ['speak', 'speaks', 'speaking', 'spoke'], 'a': 1}, {'q': 'He ___ a student #41', 'o': ['is', 'are', 'am', 'be'], 'a': 0}, {'q': 'They ___ happy #42', 'o': ['is', 'are', 'am', 'be'], 'a': 1}, {'q': 'I ___ book #43', 'o': ['read', 'reads', 'reading', 'readed'], 'a': 0}, {'q': 'She ___ to school #44', 'o': ['go', 'goes', 'going', 'gone'], 'a': 1}, {'q': 'Cat meaning? #45', 'o': ['it', 'mushuk', 'dog', 'bird'], 'a': 1}, {'q': 'Big synonym #46', 'o': ['large', 'small', 'tiny', 'short'], 'a': 0}, {'q': 'He ___ football #47', 'o': ['play', 'plays', 'playing', 'played'], 'a': 1}, {'q': 'We ___ friends #48', 'o': ['is', 'are', 'am', 'be'], 'a': 1}, {'q': 'I am ___ #49', 'o': ['happy', 'happily', 'happier', 'happiest'], 'a': 0}, {'q': 'She ___ English #50', 'o': ['speak', 'speaks', 'speaking', 'spoke'], 'a': 1}];
+
+let index=0;
+let score=0;
+
+function showQ(){
+let q=questions[index];
+document.getElementById("question").innerText=q.q;
+let html="";
+q.o.forEach((opt,i)=>{
+html+=`<div class="option" onclick="check(${i})">${opt}</div>`;
+});
+document.getElementById("options").innerHTML=html;
+}
+
+function check(i){
+if(i===questions[index].a) score++;
+index++;
+nextQ();
+}
+
+function nextQ(){
+if(index>=questions.length){
+document.getElementById("quizBox").style.display="none";
+document.getElementById("resultBox").style.display="block";
+document.getElementById("score").innerText=
+`Score: ${score} / ${questions.length}`;
+return;
+}
+showQ();
+}
+
+showQ();
+</script>
+
+</body>
+</html>
